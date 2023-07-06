@@ -1,52 +1,35 @@
 package cmd
 
 import (
-	"bytes"
+	"context"
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
+	"log"
 
 	"github.com/spf13/cobra"
 )
+
+const URI = "/v1/customers"
 
 var customerCmd = &cobra.Command{
 	Use:   "customer",
 	Short: "Fetch all customers",
 	Long:  `Fetch all customers`,
 	Run: func(cmd *cobra.Command, args []string) {
-		url := "https://api.razorpay.com/v1/customers"
 		method := "GET"
 		payload := []byte(``)
-		headers := map[string]string{
-			"Content-Type":  "application/json",
-			"Authorization": os.Getenv("BASIC_AUTH"),
-		}
 
-		req, err := http.NewRequest(method, url, bytes.NewBuffer(payload))
+		resp, err := makeRequest(context.TODO(), URI, method, payload)
+
 		if err != nil {
-			fmt.Println("Error creating request:", err)
-			return
+			log.Fatal(err)
 		}
 
-		for key, value := range headers {
-			req.Header.Set(key, value)
-		}
-
-		client := &http.Client{}
-		resp, err := client.Do(req)
+		val, err := json.MarshalIndent(resp, "", "    ")
 		if err != nil {
-			fmt.Println("Error sending request:", err)
-			return
+			log.Fatal(err)
 		}
-		defer resp.Body.Close()
+		fmt.Println(string(val))
 
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			fmt.Println("Error reading response body:", err)
-			return
-		}
-
-		fmt.Println("Response Body:", string(body))
 	},
 }
