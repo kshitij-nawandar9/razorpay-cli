@@ -29,7 +29,7 @@ var paymentCreateCmd = &cobra.Command{
 	Short: "create",
 	Long:  `create`,
 	Run: func(cmd *cobra.Command, args []string) {
-		url := "https://api-dark.razorpay.com/v1/payments/create/ajax"
+		url := "https://api-dark.razorpay.com/v1/payments/create/upi"
 		method := "POST"
 		payloadData := map[string]interface{}{
 			"contact":           "9404237451",
@@ -56,7 +56,7 @@ var paymentCreateCmd = &cobra.Command{
 		}
 
 		req, err := http.NewRequest(method, url, bytes.NewBuffer(payload))
-		req.SetBasicAuth("rzp_live_ruiXfILw0kpEXc", "")
+		req.SetBasicAuth("rzp_live_ruiXfILw0kpEXc", "X5i5mEBSVn82de7DoP3SUBRx")
 		if err != nil {
 			fmt.Println("Error creating request:", err)
 			return
