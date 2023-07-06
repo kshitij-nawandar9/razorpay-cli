@@ -31,6 +31,10 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	rootCmd.AddCommand(customerCmd)
+
 	rootCmd.AddCommand(webhookCmd)
 	webhookCmd.AddCommand(webhookListenCmd)
+
+	rootCmd.AddCommand(paymentCmd)
+	paymentCmd.AddCommand(paymentCreateCmd)
 }
