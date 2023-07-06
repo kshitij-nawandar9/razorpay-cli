@@ -6,6 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const paymentURI = "/v1/payments"
+
 var paymentCmd = &cobra.Command{
 	Use:   "payment",
 	Short: "payment",
