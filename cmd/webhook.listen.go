@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -36,7 +37,6 @@ var webhookListenCmd = &cobra.Command{
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	log.Println("webhook received")
 	defer r.Body.Close()
 
 	body, err := ioutil.ReadAll(r.Body)
@@ -45,6 +45,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("Request Body:", string(body))
-	fmt.Fprintln(w, "<h1>Hello from ngrok-go.</h1>")
+	responseBody := map[string]interface{}{}
+
+	unjErr := json.Unmarshal(body, &responseBody)
+
+	if unjErr != nil {
+		log.Fatal(err)
+	}
+
+	val, err := json.MarshalIndent(responseBody, "", "    ")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Webhook Body : \n ", string(val))
 }
