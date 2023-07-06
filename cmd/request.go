@@ -8,7 +8,8 @@ import (
 	"net/http"
 )
 
-func makeRequest(_ context.Context, uri string, method string, payload interface{}) (interface{}, error) {
+func makeRequest(_ context.Context, uri string, method string, payload interface{},
+	username string, secret string) (interface{}, error) {
 	body, jerr := json.Marshal(payload)
 
 	if jerr != nil {
@@ -28,7 +29,7 @@ func makeRequest(_ context.Context, uri string, method string, payload interface
 		req.Header.Set(key, value)
 	}
 
-	req.SetBasicAuth("rzp_live_ruiXfILw0kpEXc", "X5i5mEBSVn82de7DoP3SUBRx")
+	req.SetBasicAuth(username, secret)
 
 	client := &http.Client{}
 	resp, err := client.Do(req)

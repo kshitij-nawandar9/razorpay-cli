@@ -32,5 +32,6 @@ func init() {
 
 	rootCmd.AddCommand(customerCmd)
 	rootCmd.AddCommand(webhookCmd)
+	rootCmd.AddCommand(newLoginCmd().cmd)
 	webhookCmd.AddCommand(webhookListenCmd)
 }
