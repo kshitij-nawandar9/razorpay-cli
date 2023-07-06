@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/stripe/stripe-cli/pkg/ansi"
 )
 
 const URI = "/v1/customers"
@@ -19,7 +21,9 @@ var customerCmd = &cobra.Command{
 		method := "GET"
 		payload := []byte(``)
 
-		resp, err := makeRequest(context.TODO(), URI, method, payload)
+		s := ansi.StartNewSpinner("Loading Customers ...", os.Stdout)
+
+		resp, err := makeRequest(context.TODO(), URI, method, payload, os.Getenv(OsUsername), os.Getenv(OsSecret))
 
 		if err != nil {
 			log.Fatal(err)
@@ -29,6 +33,8 @@ var customerCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		ansi.StopSpinner(s, "", os.Stdout)
+
 		fmt.Println(string(val))
 
 	},
