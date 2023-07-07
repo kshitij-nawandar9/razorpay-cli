@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/stripe/stripe-cli/pkg/ansi"
@@ -22,6 +23,8 @@ var customerCmd = &cobra.Command{
 		payload := []byte(``)
 
 		s := ansi.StartNewSpinner("Loading Customers ...", os.Stdout)
+
+		time.Sleep(2 * time.Second)
 
 		resp, err := makeRequest(context.TODO(), URI, method, payload, os.Getenv(OsUsername), os.Getenv(OsSecret))
 

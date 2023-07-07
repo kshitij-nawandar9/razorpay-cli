@@ -7,8 +7,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/stripe/stripe-cli/pkg/ansi"
 )
 
 var paymentMethod, vpa string
@@ -21,7 +23,6 @@ func init() {
 	paymentCreateCmd.Flags().StringVarP(&paymentMethod, "method", "m", "upi", "Method of payment")
 
 	paymentCreateCmd.Flags().StringVarP(&vpa, "vpa", "v", "", "VPA of payment")
-	paymentCreateCmd.MarkFlagRequired("vpa")
 }
 
 var paymentCreateCmd = &cobra.Command{
@@ -29,6 +30,9 @@ var paymentCreateCmd = &cobra.Command{
 	Short: "create",
 	Long:  `create`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		s := ansi.StartNewSpinner("creating upi payment ...", os.Stdout)
+
 		url := "https://api-dark.razorpay.com/v1/payments/create/upi"
 		method := "POST"
 		payloadData := map[string]interface{}{
@@ -36,7 +40,6 @@ var paymentCreateCmd = &cobra.Command{
 			"email":             "manask.322@gmail.com",
 			"amount":            amt,
 			"method":            paymentMethod,
-			"vpa":               vpa,
 			"description":       "iosdsds",
 			"force_terminal_id": "term_Kxgls6GTnd88bu",
 			"bank":              "HDFC",
@@ -48,6 +51,14 @@ var paymentCreateCmd = &cobra.Command{
 				"txn_uuid":       "mozet9eUrrQb1ZXDdeN",
 			},
 			"currency": "INR",
+		}
+
+		if len(vpa) == 0 {
+			payloadData["upi"] = map[string]string{
+				"flow": "intent",
+			}
+		} else {
+			payloadData["vpa"] = vpa
 		}
 		payload, _ := json.Marshal(payloadData)
 		headers := map[string]string{
@@ -92,6 +103,8 @@ var paymentCreateCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		ansi.StopSpinner(s, "DONE!", os.Stdout)
+
 		fmt.Println(string(val))
 	},
 }
