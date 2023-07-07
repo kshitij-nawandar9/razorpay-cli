@@ -11,7 +11,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "razorpay-cli",
+	Use:   "rzp-cli",
 	Short: "command line interface for razorpay APIs",
 	Long: `Command Line Interface to check how razorpay API works. It also have capabilities to test webhook integration and 
 	testing the webhook consumption. Details of all the APIs can be found at https://razorpay.com/docs/api`,
