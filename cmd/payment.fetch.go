@@ -9,21 +9,21 @@ import (
 	"os"
 )
 
-var orderId string
+var paymentId string
 
 func init() {
-	orderFetchCmd.Flags().StringVarP(&orderId, "id", "i", "order_MAcMQWQ5eQoFiC", "Order Id of a payment")
+	paymentFetchCmd.Flags().StringVarP(&paymentId, "id", "i", "pay_MAVhcpLPpG00kd", "Payment Id")
 }
 
-var orderFetchCmd = &cobra.Command{
+var paymentFetchCmd = &cobra.Command{
 	Use:   "fetch",
-	Short: "Fetch Orders by Id",
-	Long:  "Fetch Orders by Id",
+	Short: "Fetch Payment by Id",
+	Long:  "Fetch Payment by Id",
 	Run: func(cmd *cobra.Command, args []string) {
 		method := "GET"
 		payload := []byte(``)
 
-		resp, err := makeRequest(context.TODO(), ordersURI+"/"+orderId, method, payload, os.Getenv(OsUsername), os.Getenv(OsSecret))
+		resp, err := makeRequest(context.TODO(), paymentURI+"/"+paymentId, method, payload, os.Getenv(OsUsername), os.Getenv(OsSecret))
 
 		if err != nil {
 			log.Fatal(err)
