@@ -18,8 +18,8 @@
 
 ## Order create
 
-### go run main.go order create -amount=100 -receipt="Receipt no. 1"
+### go run main.go order create --amount=100 --receipt="Receipt no. 1"
 
 ## Order fetch
 
-### go run main.go order fetch -id="order_MAcMQWQ5eQoFiC"
+### go run main.go order fetch --id="order_MAcMQWQ5eQoFiC"
