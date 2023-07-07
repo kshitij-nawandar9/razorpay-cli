@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"log"
+	"os"
 )
 
 var receipt string
@@ -32,7 +33,7 @@ var orderCreateCmd = &cobra.Command{
 			},
 		}
 
-		resp, err := makeRequest(context.TODO(), ordersURI, method, payload)
+		resp, err := makeRequest(context.TODO(), ordersURI, method, payload, os.Getenv(OsUsername), os.Getenv(OsSecret))
 
 		if err != nil {
 			log.Fatal(err)
