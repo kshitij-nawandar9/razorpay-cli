@@ -38,4 +38,8 @@ func init() {
 
 	rootCmd.AddCommand(paymentCmd)
 	paymentCmd.AddCommand(paymentCreateCmd)
+	rootCmd.AddCommand(ordersCmd)
+	ordersCmd.AddCommand(orderFetchCmd)
+	ordersCmd.AddCommand(orderCreateCmd)
+	paymentCmd.AddCommand(paymentFetchCmd)
 }
